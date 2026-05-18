@@ -77,19 +77,19 @@ export default function PortfolioLandingPage() {
 
 function FloatingHeader() {
   return (
-    <header className="fixed left-1/2 top-5 z-50 -translate-x-1/2 rounded-full border border-white/10 bg-black/40 px-3 py-2 shadow-xl backdrop-blur-xl">
-      <nav className="flex items-center gap-2">
+    <header className="fixed left-1/2 top-5 z-50 -translate-x-1/2 rounded-full border border-white/10 bg-black/40 px-2 py-1 shadow-xl backdrop-blur-xl">
+      <nav className="flex items-center gap-1">
         <a
           href="#top"
           className="
             rounded-full
-            p-2
+            px-3
+            py-1.5
             text-white/65
             transition-all
             duration-300
             hover:bg-white/10
             hover:text-white
-            hover:scale-105
           "
         >
           <House className="h-4 w-4" />
@@ -100,17 +100,15 @@ function FloatingHeader() {
             key={item.href}
             href={item.href}
             className="
-            rounded-full
-            px-3
-            py-2
-            text-xs
-            text-white/65
-            transition-all
-            duration-300
-            hover:bg-white/10
-            hover:text-white
-            hover:scale-105
-            sm:text-sm
+              rounded-full
+              px-4
+              py-1.5
+              text-xs
+              text-white/65
+              transition-all
+              duration-300
+              hover:bg-white/10
+              hover:text-white
             "
           >
             {item.label}
