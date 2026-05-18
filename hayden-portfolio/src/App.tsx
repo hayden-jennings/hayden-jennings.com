@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Mail, ArrowUpRight, House } from "lucide-react";
+import { Mail, ArrowUpRight, House, Menu, X } from "lucide-react";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
@@ -76,34 +76,19 @@ export default function PortfolioLandingPage() {
 }
 
 function FloatingHeader() {
-  return (
-    <header className="fixed left-1/2 top-5 z-50 -translate-x-1/2 rounded-full border border-white/10 bg-black/40 px-2 py-1 shadow-xl backdrop-blur-xl">
-      <nav className="flex items-center gap-1">
-        <a
-          href="#top"
-          className="
-            rounded-full
-            px-3
-            py-1.5
-            text-white/65
-            transition-all
-            duration-300
-            hover:bg-white/10
-            hover:text-white
-          "
-        >
-          <House className="h-4 w-4" />
-        </a>
+  const [menuOpen, setMenuOpen] = useState(false);
 
-        {navItems.map((item) => (
+  return (
+    <div className="fixed left-1/2 top-5 z-50 -translate-x-1/2">
+      <header className="rounded-full border border-white/10 bg-black/40 px-2 py-1 shadow-xl backdrop-blur-xl">
+        <nav className="flex items-center gap-1">
           <a
-            key={item.href}
-            href={item.href}
+            href="#top"
+            onClick={() => setMenuOpen(false)}
             className="
               rounded-full
-              px-4
+              px-3
               py-1.5
-              text-xs
               text-white/65
               transition-all
               duration-300
@@ -111,11 +96,103 @@ function FloatingHeader() {
               hover:text-white
             "
           >
-            {item.label}
+            <House className="h-4 w-4" />
           </a>
-        ))}
-      </nav>
-    </header>
+
+          {/* Desktop nav */}
+          <div className="hidden items-center gap-1 sm:flex">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="
+                  rounded-full
+                  px-4
+                  py-1.5
+                  text-[11px]
+                  text-white/65
+                  transition-all
+                  duration-300
+                  hover:bg-white/10
+                  hover:text-white
+                  uppercase
+                  font-['JetBrains_Mono']
+                "
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="
+              rounded-full
+              px-3
+              py-1.5
+              text-white/65
+              transition-all
+              duration-300
+              hover:bg-white/10
+              hover:text-white
+              sm:hidden
+            "
+            aria-label="Toggle navigation menu"
+          >
+            {menuOpen ? (
+              <X className="h-4 w-4" />
+            ) : (
+              <Menu className="h-4 w-4" />
+            )}
+          </button>
+        </nav>
+      </header>
+
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <div
+          className="
+            absolute
+            left-1/2
+            top-14
+            max-w-[calc(100vw-2rem)]
+            -translate-x-1/2
+            rounded-[28px]
+            border
+            border-white/10
+            bg-[#171A20]/95
+            p-8
+            shadow-2xl
+            backdrop-blur-xl
+            sm:hidden
+          "
+        >
+          <div className="flex flex-col gap-7">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="
+                  text-xs
+                  uppercase
+                  tracking-[0.18em]
+                  text-white/65
+                  transition-all
+                  duration-300
+                  hover:text-white
+                  hover:scale-[1.02]
+                "
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -123,37 +200,21 @@ function HeroSection() {
   return (
     <section
       id="top"
-      className="flex min-h-screen items-center justify-center px-6 pt-24"
+      className="flex min-h-screen items-center justify-start px-12 pt-24 sm:px-20"
     >
-      <div className="mx-auto max-w-4xl text-center">
+      <div className="max-w-2xl text-left">
         <p className="mb-5 text-sm font-medium uppercase tracking-[0.35em] text-white/50">
           Software Engineer / 2026
         </p>
 
-        <h1 className="text-6xl font-semibold tracking-tight sm:text-7xl md:text-8xl">
+        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
           I&apos;m Hayden
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65 sm:text-xl">
-          I build practical, scalable software across AI systems, cloud
-          infrastructure, mobile apps, and product experiences.
+        <p className="mt-6 max-w-xl text-sm leading-8 text-white/65 text-[15px]">
+          I love to code, be outside, and enjoy time with friends and family.
         </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a
-            href="#projects"
-            className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-white/85"
-          >
-            View projects
-            <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
-          <a
-            href="#contact"
-            className="rounded-full border border-white/15 px-5 py-3 text-sm font-medium text-white/80 transition hover:bg-white/10 hover:text-white"
-          >
-            Contact me
-          </a>
-        </div>
       </div>
     </section>
   );
