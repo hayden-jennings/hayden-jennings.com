@@ -10,12 +10,12 @@ body {
 
 @keyframes boatFloat {
   0% {
-    transform: translateY(0px) rotate(-0.5deg);
+    transform: translateY(0px) rotate(-1.2deg);
   }
   50% {
-    transform: translateY(-4px) rotate(0.5deg);
+    transform: translateY(-12px) rotate(1.3deg);
   }
   100% {
-    transform: translateY(0px) rotate(-0.5deg);
+    transform: translateY(0px) rotate(-1.2deg);
   }
 }

@@ -68,6 +68,10 @@ const projects = [
   },
 ];
 
+// Callback slot — called inside the Lenis rAF loop so the position read
+// always happens AFTER Lenis has advanced the scroll for that frame.
+let afterLenisCallback: (() => void) | null = null;
+
 const navItems = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
@@ -76,70 +80,44 @@ const navItems = [
 ];
 
 function FishingLineFromRod() {
-  const [line, setLine] = useState({
-    x: 0,
-    y: 0,
-    height: 0,
-    visible: false,
-  });
+  const lineRef = useRef<HTMLDivElement>(null);
+  const lureRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    const updateLine = () => {
+    afterLenisCallback = () => {
       const anchor = document.getElementById("rod-tip-anchor");
-      if (!anchor) return;
+      const lineEl = lineRef.current;
+      const lureEl = lureRef.current;
+      if (!anchor || !lineEl || !lureEl) return;
 
       const rect = anchor.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top;
+      const lureY = window.innerHeight * 0.54;
+      const lineHeight = Math.max(lureY - y, 18);
 
-      const lureY = window.innerHeight * 0.58; // fixed lure position
-      const lineHeight = Math.max(lureY - rect.top, 18);
+      lineEl.style.left = `${x + 1}px`;
+      lineEl.style.top = `${y}px`;
+      lineEl.style.height = `${lineHeight}px`;
 
-      setLine({
-        x: rect.left + rect.width / 2,
-        y: rect.top,
-        height: lineHeight,
-        visible: true,
-      });
+      lureEl.style.left = `${x + 2}px`;
+      lureEl.style.top = `${y + lineHeight + 17}px`;
     };
 
-    updateLine();
-
-    window.addEventListener("scroll", updateLine);
-    window.addEventListener("resize", updateLine);
-
     return () => {
-      window.removeEventListener("scroll", updateLine);
-      window.removeEventListener("resize", updateLine);
+      afterLenisCallback = null;
     };
   }, []);
 
-  if (!line.visible) return null;
-
   return (
     <div className="pointer-events-none fixed inset-0 z-[19]">
-      <div
-        className="absolute w-0.5 bg-[rgba(15,23,42,0.7)]"
-        style={{
-          left: line.x + 1,
-          top: line.y,
-          height: line.height,
-        }}
-      />
-
-      <div
-        className="
-          absolute
-          h-3 
-          w-3
-          -translate-x-1/2
-          -translate-y-1/2
-          rounded-full
-          bg-[#0F172A]
-          shadow-[0_0_10px_rgba(15,23,42,0.6)]
-        "
-        style={{
-          left: line.x + 2,
-          top: line.y + line.height,
-        }}
+      <div ref={lineRef} className="absolute w-0.5 bg-[rgba(15,23,42,0.8)]" />
+      <img
+        ref={lureRef}
+        src="/images/lure-with-worm.png"
+        alt="lure"
+        className="absolute -translate-x-1/2 -translate-y-1/2"
+        style={{ width: 64, height: "auto" }}
       />
     </div>
   );
@@ -148,7 +126,7 @@ function FishingLineFromRod() {
 export default function PortfolioLandingPage() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.4,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
@@ -156,6 +134,7 @@ export default function PortfolioLandingPage() {
     let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
+      afterLenisCallback?.();
       rafId = requestAnimationFrame(raf);
     }
     rafId = requestAnimationFrame(raf);
@@ -334,15 +313,31 @@ function HeroSection() {
 
       {/* Hero text */}
       <div className="relative z-20 max-w-2xl -translate-y-80 text-left sm:translate-y-18 sm:translate-x-20">
-        <p className="mb-5 text-sm font-light uppercase tracking-[0.15em] text-white/70 font-['JetBrains_Mono']">
+        <p className="mb-5 text-sm font-light uppercase tracking-[0.15em] text-[#F7EDE4]/70 font-['JetBrains_Mono']">
           Software Engineer / 2026
         </p>
 
-        <h1 className="text-3xl tracking-tight font-normal sm:text-4xl md:text-5xl text-white font-['Jost']">
-          I&apos;m Hayden
-        </h1>
+        <div className="flex items-center gap-4 mt-0">
+          <h1 className="text-3xl tracking-tight font-normal sm:text-4xl md:text-5xl text-[#F7EDE4] font-['Jost']">
+            I&apos;m Hayden
+          </h1>
+          <MagneticEffect strength={0.5}>
+            <div className="relative h-16 w-16 shrink-0">
+              {/* Background circle sized inward to match just the circular part of the image */}
+              <div
+                className="absolute inset-[8%] rounded-full"
+                style={{ backgroundColor: "#F7EDE4" }}
+              />
+              <img
+                src="/images/Headshot8bitProfile.png"
+                alt="Hayden profile"
+                className="relative h-full w-full object-contain image-render-pixel"
+              />
+            </div>
+          </MagneticEffect>
+        </div>
 
-        <p className="mt-6 max-w-2xl text-[15px] font-light leading-8 tracking-tight text-white/70 font-['JetBrains_Mono']">
+        <p className="mt-6 max-w-2xl text-[15px] font-light leading-8 tracking-tight text-[#F7EDE4]/70 font-['JetBrains_Mono']">
           I love to code, be outside, and enjoy time with friends and family.
         </p>
       </div>
@@ -383,37 +378,9 @@ function HeroSection() {
             top-[130px]
             h-1
             w-1
+            animate-[boatFloat_7s_ease-in-out_infinite]
           "
         />
-
-        {/* Fishing line scroll indicator */}
-        {/* <div
-          className="
-            absolute
-            right-[277px]
-            top-[145px]
-            h-[62vh]
-            w-px
-            z-[19]
-          "
-        >
-          <div className="w-px bg-white" style={{ height: lineHeight }} />
-
-          <div
-            className="
-              absolute
-              left-1/2
-              h-2
-              w-2
-              -translate-x-1/2
-              -translate-y-1/2
-              rounded-full
-              bg-zinc-300
-              shadow-[0_0_10px_rgba(255,255,255,0.7)]
-            "
-            style={{ top: lureTop }}
-          />
-        </div> */}
       </div>
 
       {/* Foreground bushes — sits above rod line (z-[19]) */}
@@ -501,6 +468,46 @@ function ExperienceSection() {
   );
 }
 
+function MagneticEffect({
+  children,
+  strength = 0.4,
+}: {
+  children: React.ReactNode;
+  strength?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
+  const xSpring = useSpring(x, springConfig);
+  const ySpring = useSpring(y, springConfig);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * strength);
+    y.set((e.clientY - centerY) * strength);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ x: xSpring, y: ySpring }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 function TiltEffect({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -569,7 +576,7 @@ function ProjectsSection() {
         backgroundPosition: "center",
       }}
     >
-      <div className="relative z-10 mx-auto max-w-3xl text-left">
+      <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Projects</SectionLabel>
         <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
           Selected projects and product work.
