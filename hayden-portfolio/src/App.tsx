@@ -184,7 +184,7 @@ function FloatingHeader() {
               transition-all
               duration-300
               hover:bg-white/10
-              hover:text-white
+              hover:text-[#D5C292]
             "
           >
             <House className="h-4 w-4" />
@@ -205,7 +205,7 @@ function FloatingHeader() {
                   transition-all
                   duration-300
                   hover:bg-white/10
-                  hover:text-white
+                  hover:text-[#D5C292]
                   uppercase
                   font-['JetBrains_Mono']
                 "
@@ -227,7 +227,7 @@ function FloatingHeader() {
               transition-all
               duration-300
               hover:bg-white/10
-              hover:text-white
+              hover:text-[#D5C292]
               sm:hidden
             "
             aria-label="Toggle navigation menu"
@@ -273,7 +273,7 @@ function FloatingHeader() {
                   text-white/65
                   transition-all
                   duration-300
-                  hover:text-white
+                  hover:text-[#D5C292]
                   hover:scale-[1.02]
                 "
               >
