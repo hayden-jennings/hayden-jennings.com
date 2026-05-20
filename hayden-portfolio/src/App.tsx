@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import Lenis from "lenis";
 
-import { Mail, ArrowUpRight, House, Menu, X } from "lucide-react";
+import { Mail, House, Menu, X } from "lucide-react";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+
+import "@fontsource/jost/300.css";
+import "@fontsource/jost/400.css";
+import "@fontsource/jost/500.css";
+import "@fontsource/jost/600.css";
+
+import "@fontsource/jetbrains-mono/300.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+import "@fontsource/jetbrains-mono/600.css";
+import "@fontsource/jetbrains-mono/700.css";
 
 const experiences = [
   {
@@ -10,7 +23,7 @@ const experiences = [
     dates: "2024 — Present",
     role: "Software Engineer",
     summary:
-      "Building high-availability AI and chatbot systems that support roadside assistance workflows, distributed cloud infrastructure, LLM-powered agents, and member-facing service experiences.",
+      "I've spent over 2 years at AAA. During my time here, I designed and built high-availability AI and chatbot systems that support roadside assistance workflows, distributed cloud infrastructure, LLM-powered agents, and member-facing service experiences. I've gained vast experience working with AI technologies that impact millions of users, and have developed a strong passion for building software that solves real problems and makes people's lives easier.",
   },
   {
     company: "The Pump App",
@@ -24,7 +37,7 @@ const experiences = [
     dates: "2019 — 2023",
     role: "Student-Athlete / Computer Science",
     summary:
-      "Balanced software engineering coursework with Division 1 track and field, developing strong habits around discipline, performance, and technical problem solving.",
+      "Balanced joint computer science and mathematics major with Division 1 track and field, developing strong habits around discipline, performance, and technical problem solving.",
   },
 ];
 
@@ -36,9 +49,9 @@ const projects = [
     stack: "React Native, TypeScript, Firebase, Expo",
   },
   {
-    name: "AI Financial Assistant",
+    name: "Wallet Wiz",
     description:
-      "A personalized chatbot that answers questions about balances, spending, transactions, and abnormal purchases.",
+      "I got tired of always calculated home much money I actually had and decided to have a machine do that for me. Introducing Wallet Wiz, a personalized chatbot that answers questions about balances, spending, transactions, and abnormal purchases.",
     stack: "Python, FastAPI, LangGraph, PostgreSQL, Plaid, Telegram",
   },
   {
@@ -62,15 +75,114 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-export default function PortfolioLandingPage() {
+function FishingLineFromRod() {
+  const [line, setLine] = useState({
+    x: 0,
+    y: 0,
+    height: 0,
+    visible: false,
+  });
+
+  useEffect(() => {
+    const updateLine = () => {
+      const anchor = document.getElementById("rod-tip-anchor");
+      if (!anchor) return;
+
+      const rect = anchor.getBoundingClientRect();
+
+      const lureY = window.innerHeight * 0.58; // fixed lure position
+      const lineHeight = Math.max(lureY - rect.top, 18);
+
+      setLine({
+        x: rect.left + rect.width / 2,
+        y: rect.top,
+        height: lineHeight,
+        visible: true,
+      });
+    };
+
+    updateLine();
+
+    window.addEventListener("scroll", updateLine);
+    window.addEventListener("resize", updateLine);
+
+    return () => {
+      window.removeEventListener("scroll", updateLine);
+      window.removeEventListener("resize", updateLine);
+    };
+  }, []);
+
+  if (!line.visible) return null;
+
   return (
-    <main className="min-h-screen bg-[#080A0F] text-white selection:bg-white selection:text-black">
+    <div className="pointer-events-none fixed inset-0 z-[19]">
+      <div
+        className="absolute w-0.5 bg-[rgba(15,23,42,0.7)]"
+        style={{
+          left: line.x + 1,
+          top: line.y,
+          height: line.height,
+        }}
+      />
+
+      <div
+        className="
+          absolute
+          h-3 
+          w-3
+          -translate-x-1/2
+          -translate-y-1/2
+          rounded-full
+          bg-[#0F172A]
+          shadow-[0_0_10px_rgba(15,23,42,0.6)]
+        "
+        style={{
+          left: line.x + 2,
+          top: line.y + line.height,
+        }}
+      />
+    </div>
+  );
+}
+
+export default function PortfolioLandingPage() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
+
+  return (
+    <main className="min-h-screen bg-[#F8F4EC] text-[#0F172A] selection:bg-[#0F172A] selection:text-[#F8F4EC]">
       <FloatingHeader />
+      <FishingLineFromRod />
       <HeroSection />
       <AboutSection />
       <ExperienceSection />
-      <ProjectsSection />
-      <Footer />
+      <div className="relative">
+        <ProjectsSection />
+        <Footer />
+        <img
+          src="/images/background-bottom.png"
+          alt=""
+          className="pointer-events-none absolute bottom-0 left-0 w-full object-cover object-bottom"
+          style={{ zIndex: 1 }}
+        />
+      </div>
     </main>
   );
 }
@@ -200,21 +312,118 @@ function HeroSection() {
   return (
     <section
       id="top"
-      className="flex min-h-screen items-center justify-start px-12 pt-24 sm:px-20"
+      className="relative flex min-h-screen items-center overflow-hidden px-12 pt-24 sm:px-20"
     >
-      <div className="max-w-2xl text-left">
-        <p className="mb-5 text-sm font-medium uppercase tracking-[0.35em] text-white/50">
+      {/* Lake background */}
+      <img
+        src="/images/lake-hero5.png"
+        alt=""
+        className="
+          absolute
+          inset-0
+          h-full
+          w-full
+          object-cover
+          object-center
+          image-render-pixel
+        "
+      />
+
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#080A0F]/65 via-[#080A0F]/30 to-[#080A0F]/5" />
+
+      {/* Hero text */}
+      <div className="relative z-20 max-w-2xl -translate-y-80 text-left sm:translate-y-18 sm:translate-x-20">
+        <p className="mb-5 text-sm font-light uppercase tracking-[0.15em] text-white/70 font-['JetBrains_Mono']">
           Software Engineer / 2026
         </p>
 
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="text-3xl tracking-tight font-normal sm:text-4xl md:text-5xl text-white font-['Jost']">
           I&apos;m Hayden
         </h1>
 
-        <p className="mt-6 max-w-xl text-sm leading-8 text-white/65 text-[15px]">
+        <p className="mt-6 max-w-2xl text-[15px] font-light leading-8 tracking-tight text-white/70 font-['JetBrains_Mono']">
           I love to code, be outside, and enjoy time with friends and family.
         </p>
+      </div>
 
+      {/* Boat + fishing line scene */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          bottom-[24%]
+          right-[12%]
+          z-20
+          hidden
+          h-[260px]
+          w-[460px]
+          md:block
+        "
+      >
+        <img
+          src="/images/boat-avatar4.png"
+          alt="Pixel art Hayden fishing in a boat"
+          className="
+            absolute
+            bottom-0
+            right-0
+            w-[360px]
+            image-render-pixel
+            animate-[boatFloat_7s_ease-in-out_infinite]
+            z-[20]
+          "
+        />
+
+        <div
+          id="rod-tip-anchor"
+          className="
+            absolute
+            right-[275px]
+            top-[130px]
+            h-1
+            w-1
+          "
+        />
+
+        {/* Fishing line scroll indicator */}
+        {/* <div
+          className="
+            absolute
+            right-[277px]
+            top-[145px]
+            h-[62vh]
+            w-px
+            z-[19]
+          "
+        >
+          <div className="w-px bg-white" style={{ height: lineHeight }} />
+
+          <div
+            className="
+              absolute
+              left-1/2
+              h-2
+              w-2
+              -translate-x-1/2
+              -translate-y-1/2
+              rounded-full
+              bg-zinc-300
+              shadow-[0_0_10px_rgba(255,255,255,0.7)]
+            "
+            style={{ top: lureTop }}
+          />
+        </div> */}
+      </div>
+
+      {/* Foreground bushes — sits above rod line (z-[19]) */}
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[16%] z-[20]">
+        <img
+          src="/images/lake-hero-bushes.png"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-bottom image-render-pixel"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#080A0F]/65 via-[#080A0F]/30 to-[#080A0F]/5" />
       </div>
     </section>
   );
@@ -222,24 +431,33 @@ function HeroSection() {
 
 function AboutSection() {
   return (
-    <section id="about" className="px-6 py-28">
-      <div className="mx-auto max-w-3xl text-center">
+    <section
+      id="about"
+      className="relative overflow-hidden px-6 py-28"
+      style={{
+        backgroundImage: "url(/images/background-bubbles.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>About</SectionLabel>
-        <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
-          Engineer focused on useful systems and polished products.
+        <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
+          I'm Hayden
         </h2>
 
-        <div className="mx-auto mt-8 space-y-6 text-base leading-8 text-white/65 sm:text-lg">
+        <div className="mt-8 max-w-2xl space-y-6 text-base leading-8 text-[#334155] sm:text-md">
           <p>
-            I&apos;m a software engineer working on AI-powered chatbot systems,
-            cloud infrastructure, and customer-facing product experiences. My
-            work sits at the intersection of distributed systems, LLM
-            applications, APIs, and frontend engineering.
+            I&apos;m a software engineer based out of Los Angeles. I have
+            experience working on AI-powered chatbot systems, cloud
+            infrastructure, and customer-facing product experiences. I enjoy
+            building software that solves real problems and makes people&apos;s
+            lives easier.
           </p>
           <p>
-            Outside of work, I&apos;m usually training, golfing, woodworking, or
-            building side projects. I like projects that combine software,
-            physical products, design, and performance.
+            Outside of the office, you can usually find me outdoors, in the gym,
+            or building fun projects in either in the digital (code) or physical
+            (woodworking) realms.
           </p>
         </div>
       </div>
@@ -249,97 +467,129 @@ function AboutSection() {
 
 function ExperienceSection() {
   return (
-    <section id="experience" className="px-6 py-28">
-      <div className="mx-auto max-w-4xl text-center">
+    <section
+      id="experience"
+      className="relative overflow-hidden px-6 py-28"
+      style={{
+        backgroundImage: "url(/images/background-bubbles2.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Experience</SectionLabel>
-        <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
-          Where I&apos;ve built, learned, and shipped.
+        <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
+          Where I&apos;ve worked and what I&apos;ve built.
         </h2>
 
-        <div className="relative mx-auto mt-14 max-w-3xl text-left">
-          <div className="absolute left-4 top-0 h-full w-px bg-white/15 sm:left-1/2 sm:-translate-x-1/2" />
-
-          <div className="space-y-10">
-            {experiences.map((experience, index) => (
-              <TimelineItem
-                key={experience.company}
-                experience={experience}
-                align={index % 2 === 0 ? "left" : "right"}
-              />
-            ))}
-          </div>
+        <div className="mt-8 max-w-2xl space-y-6 text-base leading-8 text-[#334155] sm:text-md">
+          {experiences.map((experience) => (
+            <div key={experience.company}>
+              <p className="font-semibold text-[#0F172A] flex items-baseline gap-3">
+                {experience.company}
+                <span className="text-xs font-normal text-[#0F172A]/40 font-['JetBrains_Mono']">
+                  {experience.dates}
+                </span>
+              </p>
+              <p className="text-sm text-[#2E749E]">{experience.role}</p>
+              <p className="mt-2">{experience.summary}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function TimelineItem({
-  experience,
-  align,
-}: {
-  experience: (typeof experiences)[number];
-  align: "left" | "right";
-}) {
-  const desktopAlign =
-    align === "left" ? "sm:pr-10 sm:text-right" : "sm:ml-auto sm:pl-10";
+function TiltEffect({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springConfig = { damping: 30, stiffness: 400, mass: 0.5 };
+  const xSpring = useSpring(x, springConfig);
+  const ySpring = useSpring(y, springConfig);
+
+  const rotateX = useTransform(
+    ySpring,
+    [-size.height / 2, size.height / 2],
+    [10, -10],
+  );
+  const rotateY = useTransform(
+    xSpring,
+    [-size.width / 2, size.width / 2],
+    [-10, 10],
+  );
+
+  useEffect(() => {
+    const update = () => {
+      if (ref.current)
+        setSize({
+          width: ref.current.offsetWidth,
+          height: ref.current.offsetHeight,
+        });
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   return (
-    <div className="relative grid sm:grid-cols-2">
-      <div
-        className={`ml-12 rounded-2xl border border-white/10 bg-white/[0.04] p-6 shadow-xl shadow-black/20 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.06] sm:ml-0 ${
-          align === "left" ? desktopAlign : "sm:col-start-2 " + desktopAlign
-        }`}
-      >
-        <div className="flex flex-col gap-1 sm:block">
-          <h3 className="text-lg font-semibold text-white">
-            {experience.company}
-          </h3>
-          <p className="text-sm text-white/45">{experience.dates}</p>
-        </div>
-        <p className="mt-3 text-sm font-medium text-white/80">
-          {experience.role}
-        </p>
-        <p className="mt-4 text-sm leading-7 text-white/60">
-          {experience.summary}
-        </p>
-      </div>
-
-      <div className="absolute left-4 top-6 h-3 w-3 -translate-x-1/2 rounded-full bg-white ring-8 ring-white/10 sm:left-1/2" />
-    </div>
+    <motion.div
+      ref={ref}
+      className="h-full"
+      style={{ perspective: 1000, transformStyle: "preserve-3d" }}
+      onMouseMove={(e) => {
+        if (!ref.current) return;
+        const rect = ref.current.getBoundingClientRect();
+        x.set(e.clientX - rect.left - size.width / 2);
+        y.set(e.clientY - rect.top - size.height / 2);
+      }}
+      onMouseLeave={() => {
+        x.set(0);
+        y.set(0);
+      }}
+    >
+      <motion.div className="h-full" style={{ rotateX, rotateY }}>
+        {children}
+      </motion.div>
+    </motion.div>
   );
 }
 
 function ProjectsSection() {
   return (
-    <section id="projects" className="px-6 py-28">
-      <div className="mx-auto max-w-5xl text-center">
+    <section
+      id="projects"
+      className="relative overflow-hidden px-6 py-28"
+      style={{
+        backgroundImage: "url(/images/background-bubbles.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="relative z-10 mx-auto max-w-3xl text-left">
         <SectionLabel>Projects</SectionLabel>
-        <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
+        <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
           Selected projects and product work.
         </h2>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 auto-rows-[1fr]">
           {projects.map((project) => (
-            <article
-              key={project.name}
-              className="group rounded-3xl border border-white/10 bg-white/[0.04] p-7 text-left shadow-2xl shadow-black/20 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.07]"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-xl font-semibold tracking-tight text-white">
+            <TiltEffect key={project.name}>
+              <div className="flex h-full flex-col gap-5 rounded-2xl border border-[#E2D8C8] bg-[#FBF8F2]/80 p-6 backdrop-blur-sm">
+                <p className="font-semibold text-[#0F172A] font-['Jost']">
                   {project.name}
-                </h3>
-                <ArrowUpRight className="h-5 w-5 text-white/35 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+                </p>
+                <p className="flex-1 text-15 leading-6 font-['Jost'] text-[#334155]">
+                  {project.description}
+                </p>
+                <p className="text-xs text-[#2E749E] font-['JetBrains_Mono']">
+                  {project.stack}
+                </p>
               </div>
-
-              <p className="mt-4 text-sm leading-7 text-white/60">
-                {project.description}
-              </p>
-
-              <p className="mt-6 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-xs leading-6 text-white/50">
-                {project.stack}
-              </p>
-            </article>
+            </TiltEffect>
           ))}
         </div>
       </div>
@@ -349,13 +599,16 @@ function ProjectsSection() {
 
 function Footer() {
   return (
-    <footer id="contact" className="border-t border-white/10 px-6 py-12">
-      <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-6 text-center sm:flex-row sm:text-left">
+    <footer
+      id="contact"
+      className="relative overflow-visible border-t border-[#E2D8C8] px-6 py-12"
+    >
+      <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center justify-between gap-6 text-center sm:flex-row sm:text-left">
         <div>
-          <p className="text-lg font-medium text-white">
+          <p className="text-lg font-medium text-[#0F172A]">
             Building useful software with care.
           </p>
-          <p className="mt-2 text-sm text-white/45">Portfolio / 2026</p>
+          <p className="mt-2 text-sm text-[#64748B]">Portfolio / 2026</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -392,7 +645,7 @@ function FooterLink({
       aria-label={label}
       target={href.startsWith("http") ? "_blank" : undefined}
       rel={href.startsWith("http") ? "noreferrer" : undefined}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white/60 transition hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#E2D8C8] bg-[#FBF8F2] text-[#64748B] transition hover:-translate-y-0.5 hover:bg-[#F2EADC] hover:text-[#0F172A]"
     >
       {children}
     </a>
@@ -401,7 +654,7 @@ function FooterLink({
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-sm font-medium uppercase tracking-[0.3em] text-white/40">
+    <p className="text-sm font-light uppercase font-['JetBrains_Mono'] tracking-[0.10em] text-[#2E749E]">
       {children}
     </p>
   );

@@ -1,9 +1,21 @@
 @import "tailwindcss";
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
+}
+
+.image-render-pixel {
+  image-rendering: pixelated;
+}
+
+@keyframes boatFloat {
+  0% {
+    transform: translateY(0px) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(-0.5deg);
+  }
 }
