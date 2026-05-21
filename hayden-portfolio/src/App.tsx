@@ -65,6 +65,7 @@ const projects = [
 // Callback slot — called inside the Lenis rAF loop so the position read
 // always happens AFTER Lenis has advanced the scroll for that frame.
 let afterLenisCallback: (() => void) | null = null;
+let lenisInstance: Lenis | null = null;
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -124,6 +125,7 @@ export default function PortfolioLandingPage() {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
+    lenisInstance = lenis;
 
     let rafId: number;
     function raf(time: number) {
@@ -136,6 +138,7 @@ export default function PortfolioLandingPage() {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      lenisInstance = null;
     };
   }, []);
 
@@ -163,13 +166,24 @@ export default function PortfolioLandingPage() {
 function FloatingHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  function handleNavClick(
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) {
+    e.preventDefault();
+    setMenuOpen(false);
+    const target =
+      href === "#top" ? document.body : document.querySelector(href);
+    if (target) lenisInstance?.scrollTo(target as HTMLElement, { offset: 0 });
+  }
+
   return (
     <div className="fixed left-1/2 top-5 z-50 -translate-x-1/2">
       <header className="rounded-full border border-white/10 bg-black/40 px-2 py-1 shadow-xl backdrop-blur-xl">
         <nav className="flex items-center gap-1">
           <a
             href="#top"
-            onClick={() => setMenuOpen(false)}
+            onClick={(e) => handleNavClick(e, "#top")}
             className="
               rounded-full
               px-3
@@ -190,6 +204,7 @@ function FloatingHeader() {
               <a
                 key={item.href}
                 href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="
                   rounded-full
                   px-4
@@ -259,7 +274,7 @@ function FloatingHeader() {
               <a
                 key={item.href}
                 href={item.href}
-                onClick={() => setMenuOpen(false)}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="
                   text-xs
                   uppercase
