@@ -19,25 +19,25 @@ import "@fontsource/jetbrains-mono/700.css";
 
 const experiences = [
   {
-    company: "AAA / ClubLabs",
+    company: "AAA | American Automobile Association",
     dates: "2024 — Present",
     role: "Software Engineer",
     summary:
       "I've spent over 2 years at AAA. During my time here, I designed and built high-availability AI and chatbot systems that support roadside assistance workflows, distributed cloud infrastructure, LLM-powered agents, and member-facing service experiences. I've gained vast experience working with AI technologies that impact millions of users, and have developed a strong passion for building software that solves real problems and makes people's lives easier.",
   },
   {
-    company: "The Pump App",
-    dates: "2023 — Present",
-    role: "Founder / Mobile Engineer",
+    company: "Freelance Software Engineer",
+    dates: "2023 — 2024",
+    role: "Software Engineer",
     summary:
-      "Designed, built, and launched a React Native fitness app focused on workout logging, progress tracking, analytics, and helping gym-goers stay consistent.",
+      "Worked as a freelance software engineer building AI-powered chatbots and custom web applications for small businesses and entrepreneurs. Led projects across the full product lifecycle, including ideation, product design, development, deployment, and iteration based on client and end-user feedback, gaining hands-on experience delivering software from concept to production.",
   },
   {
-    company: "Boston University",
-    dates: "2019 — 2023",
-    role: "Student-Athlete / Computer Science",
+    company: "BU Shape Lab",
+    dates: "2022",
+    role: "Research Intern",
     summary:
-      "Balanced joint computer science and mathematics major with Division 1 track and field, developing strong habits around discipline, performance, and technical problem solving.",
+      "Conducted research at the Boston University Shape Lab focused on human motion analysis and movement studies. Assisted with motion capture sessions, processed and analyzed movement data, and contributed to research involving athletics, yoga, dance, and balance. Developed experience working across research workflows, data processing pipelines, and interdisciplinary technical projects.",
   },
 ];
 
@@ -45,26 +45,20 @@ const projects = [
   {
     name: "The Pump App",
     description:
-      "A mobile fitness app for logging workouts, tracking progress, and visualizing training analytics.",
-    stack: "React Native, TypeScript, Firebase, Expo",
-  },
-  {
-    name: "Wallet Wiz",
-    description:
-      "I got tired of always calculated home much money I actually had and decided to have a machine do that for me. Introducing Wallet Wiz, a personalized chatbot that answers questions about balances, spending, transactions, and abnormal purchases.",
-    stack: "Python, FastAPI, LangGraph, PostgreSQL, Plaid, Telegram",
+      "The Pump App is a fitness app I built from 0 → 1 and launched on the App Store. It helps users track workouts, log progress, build routines, and stay consistent with their fitness goals. I handled the full product journey end-to-end, from idea and design through development, launch, and deployment.",
+    stack: "React Native, TypeScript, Python, AWS",
   },
   {
     name: "Truck Tracker",
     description:
-      "A near real-time geospatial tracking experience for roadside service members waiting for assistance.",
-    stack: "TypeScript, Google Maps APIs, AWS Lambda, Azure",
+      "Built a near real-time geospatial tracking experience within the AAA chatbot interface, enabling roadside members to view live truck locations, receive ETA updates, and track reroutes in real time. Owned the feature end-to-end and integrated Google Maps APIs to power the experience. The launch significantly reduced negative feedback around location visibility and ETA uncertainty, and became a major win for the team.",
+    stack: "TypeScript, C#, Google Maps APIs, AWS, Azure",
   },
   {
-    name: "TOUR GRIP",
+    name: "Wallet Wiz",
     description:
-      "A portable golf glove drying device concept designed for airflow, retention, and on-course usability.",
-    stack: "Product Design, CAD, Prototyping, DFM",
+      "I got tired of always calculating how much money I actually had and decided to have a machine do it for me. This is how Wallet Wiz was born. A personalized chatbot that answers questions about balances, spending, transactions, and abnormal purchases.",
+    stack: "Python, FastAPI, LangGraph, PostgreSQL, Plaid, Telegram",
   },
 ];
 
@@ -348,7 +342,7 @@ function HeroSection() {
           pointer-events-none
           absolute
           bottom-[24%]
-          right-[12%]
+          right-[10%]
           z-20
           hidden
           h-[260px]
@@ -400,7 +394,7 @@ function AboutSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden px-6 py-28"
+      className="relative overflow-hidden px-6 pt-42 pb-28"
       style={{
         backgroundImage: "url(/images/background-bubbles.png)",
         backgroundSize: "cover",
@@ -415,11 +409,16 @@ function AboutSection() {
 
         <div className="mt-8 max-w-2xl space-y-6 text-base leading-8 text-[#334155] sm:text-md">
           <p>
-            I&apos;m a software engineer based out of Los Angeles. I have
+            I&apos;m a software engineer based out of Los Angeles with
             experience working on AI-powered chatbot systems, cloud
             infrastructure, and customer-facing product experiences. I enjoy
             building software that solves real problems and makes people&apos;s
             lives easier.
+          </p>
+          <p>
+            Former Division 1 track & field athlete at Boston University,
+            bringing a performance mindset to engineering, product building, and
+            continuous improvement.
           </p>
           <p>
             Outside of the office, you can usually find me outdoors, in the gym,
@@ -436,7 +435,7 @@ function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="relative overflow-hidden px-6 py-28"
+      className="relative overflow-hidden px-6 py-14"
       style={{
         backgroundImage: "url(/images/background-bubbles2.png)",
         backgroundSize: "cover",
@@ -446,7 +445,7 @@ function ExperienceSection() {
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Experience</SectionLabel>
         <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
-          Where I&apos;ve worked and what I&apos;ve built.
+          Where I&apos;ve worked.
         </h2>
 
         <div className="mt-8 max-w-2xl space-y-6 text-base leading-8 text-[#334155] sm:text-md">
@@ -579,20 +578,20 @@ function ProjectsSection() {
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Projects</SectionLabel>
         <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
-          Selected projects and product work.
+          Selected projects, ask me about them!
         </h2>
 
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 auto-rows-[1fr]">
+        <div className="mt-8 flex flex-col gap-4">
           {projects.map((project) => (
             <TiltEffect key={project.name}>
-              <div className="flex h-full flex-col gap-5 rounded-2xl border border-[#E2D8C8] bg-[#FBF8F2]/80 p-6 backdrop-blur-sm">
+              <div className="flex h-full flex-col gap-6 rounded-2xl border border-[#E2D8C8] bg-[#FBF8F2]/80 p-8 backdrop-blur-sm">
                 <p className="font-semibold text-[#0F172A] font-['Jost']">
                   {project.name}
                 </p>
-                <p className="flex-1 text-15 leading-6 font-['Jost'] text-[#334155]">
+                <p className="flex-1 text-15 leading-7 font-['Jost'] text-[#334155]">
                   {project.description}
                 </p>
-                <p className="text-xs text-[#2E749E] font-['JetBrains_Mono']">
+                <p className="text-xs text-[#2E749E]/80 font-['JetBrains_Mono']">
                   {project.stack}
                 </p>
               </div>
@@ -606,11 +605,8 @@ function ProjectsSection() {
 
 function Footer() {
   return (
-    <footer
-      id="contact"
-      className="relative overflow-visible border-t border-[#E2D8C8] px-6 py-12"
-    >
-      <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center justify-between gap-6 text-center sm:flex-row sm:text-left">
+    <footer id="contact" className="relative overflow-visible px-6 py-12">
+      <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center justify-between gap-6 border-t border-[#E2D8C8] pt-12 text-center sm:flex-row sm:text-left">
         <div>
           <p className="text-lg font-medium text-[#0F172A]">
             Building useful software with care.
@@ -619,14 +615,14 @@ function Footer() {
         </div>
 
         <div className="flex items-center gap-3">
-          <FooterLink href="mailto:hayden@example.com" label="Email">
+          <FooterLink href="mailto:hayden-jennings@outlook.com" label="Email">
             <Mail className="h-4 w-4" />
           </FooterLink>
-          <FooterLink href="https://github.com/yourusername" label="GitHub">
+          <FooterLink href="https://github.com/hayden-jennings" label="GitHub">
             <FaGithub className="h-4 w-4" />
           </FooterLink>
           <FooterLink
-            href="https://linkedin.com/in/yourusername"
+            href="https://www.linkedin.com/in/hayden-jennings-9b665719b/"
             label="LinkedIn"
           >
             <FaLinkedin className="h-4 w-4" />
