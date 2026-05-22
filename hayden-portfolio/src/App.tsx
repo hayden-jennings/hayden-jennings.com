@@ -4,8 +4,6 @@ import Lenis from "lenis";
 
 import { Mail, House, Menu, X } from "lucide-react";
 
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-
 import "@fontsource/jost/300.css";
 import "@fontsource/jost/400.css";
 import "@fontsource/jost/500.css";
@@ -109,8 +107,9 @@ export default function PortfolioLandingPage() {
         <ProjectsSection />
         <Footer />
         <img
-          src="/images/background-bottom.png"
+          src="/images/background-bottom.webp"
           alt=""
+          loading="lazy"
           className="pointer-events-none absolute bottom-0 left-0 w-full object-cover object-bottom"
           style={{ zIndex: 1 }}
         />
@@ -142,6 +141,7 @@ function FloatingHeader() {
         <nav className="flex items-center gap-1">
           <a
             href="#top"
+            aria-label="Back to top"
             onClick={(e) => handleNavClick(e, "#top")}
             className="
               rounded-full
@@ -290,7 +290,7 @@ function FishingLineFromRod() {
       <div ref={lineRef} className="absolute w-0.5 bg-[rgba(15,23,42,0.8)]" />
       <img
         ref={lureRef}
-        src="/images/lure-with-worm.png"
+        src="/images/lure-with-worm.webp"
         alt="lure"
         className="absolute -translate-x-1/2 -translate-y-1/2"
         style={{ width: 64, height: "auto" }}
@@ -307,8 +307,9 @@ function HeroSection() {
     >
       {/* Lake background */}
       <img
-        src="/images/lake-hero5.png"
+        src="/images/lake-hero5.webp"
         alt=""
+        fetchPriority="high"
         className="
           absolute
           inset-0
@@ -341,7 +342,7 @@ function HeroSection() {
                 style={{ backgroundColor: "#F7EDE4" }}
               />
               <img
-                src="/images/Headshot8bitProfile.png"
+                src="/images/Headshot8bitProfile1.webp"
                 alt="Hayden profile"
                 className="relative h-full w-full object-contain image-render-pixel"
               />
@@ -374,7 +375,7 @@ function HeroSection() {
         "
       >
         <img
-          src="/images/boat-avatar4.png"
+          src="/images/boat-avatar5.webp"
           alt="Pixel art Hayden fishing in a boat"
           className="
             absolute
@@ -406,7 +407,7 @@ function HeroSection() {
       {/* Foreground bushes — sits above rod line (z-[19]) */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[16%] z-[20]">
         <img
-          src="/images/lake-hero-bushes.png"
+          src="/images/lake-hero-bushes.webp"
           alt=""
           className="absolute inset-0 h-full w-full object-cover object-bottom image-render-pixel"
         />
@@ -421,12 +422,13 @@ function AboutSection() {
     <section
       id="about"
       className="relative overflow-hidden px-6 pr-14 sm:pr-6 pt-42 pb-28"
-      style={{
-        backgroundImage: "url(/images/background-bubbles.png)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
+      <img
+        src="/images/background-bubbles.webp"
+        alt=""
+        loading="lazy"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+      />
       {/* Dark fade from hero — prevents jarring cream bleed when about section enters viewport */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-44" />
       <div className="relative z-10 mx-auto max-w-2xl text-left">
@@ -464,12 +466,13 @@ function ExperienceSection() {
     <section
       id="experience"
       className="relative overflow-hidden px-6 pr-14 sm:pr-6 py-14"
-      style={{
-        backgroundImage: "url(/images/background-bubbles2.png)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
+      <img
+        src="/images/background-bubbles2.webp"
+        alt=""
+        loading="lazy"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+      />
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Experience</SectionLabel>
         <h2 className="mt-4 text-xl tracking-tight sm:text-2xl font-['Jost']">
@@ -597,12 +600,13 @@ function ProjectsSection() {
     <section
       id="projects"
       className="relative overflow-hidden px-6 pr-14 sm:pr-6 py-28"
-      style={{
-        backgroundImage: "url(/images/background-bubbles.png)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
+      <img
+        src="/images/background-bubbles.webp"
+        alt=""
+        loading="lazy"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+      />
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Projects</SectionLabel>
         <h2 className="mt-4 text-xl tracking-tight sm:text-2xl font-['Jost']">
@@ -647,13 +651,27 @@ function Footer() {
             <Mail className="h-4 w-4" />
           </FooterLink>
           <FooterLink href="https://github.com/hayden-jennings" label="GitHub">
-            <FaGithub className="h-4 w-4" />
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
           </FooterLink>
           <FooterLink
             href="https://www.linkedin.com/in/hayden-jennings-9b665719b/"
             label="LinkedIn"
           >
-            <FaLinkedin className="h-4 w-4" />
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
           </FooterLink>
         </div>
       </div>

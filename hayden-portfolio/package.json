@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "deploy:preview": "npm run build && firebase hosting:channel:deploy preview"
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.2.8",
@@ -16,8 +18,7 @@
     "lucide-react": "^1.16.0",
     "motion": "^12.39.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "react-icons": "^5.6.0"
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
