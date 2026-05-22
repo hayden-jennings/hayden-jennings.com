@@ -1,7 +1,14 @@
 @import "tailwindcss";
 
+html {
+  overscroll-behavior: none;
+}
+
 body {
   margin: 0;
+  padding: 0;
+  background-color: #f8eee4;
+  overscroll-behavior: none;
 }
 
 .image-render-pixel {
@@ -18,4 +25,9 @@ body {
   100% {
     transform: translateY(0px) rotate(-1.2deg);
   }
+}
+
+@theme {
+  --breakpoint-xs: 480px; /* new */
+  --breakpoint-3xl: 1646px; /* new */
 }

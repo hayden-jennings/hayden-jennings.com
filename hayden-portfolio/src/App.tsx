@@ -143,13 +143,13 @@ export default function PortfolioLandingPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#F8F4EC] text-[#0F172A] selection:bg-[#0F172A] selection:text-[#F8F4EC]">
+    <main className="min-h-dvh text-[#0F172A] selection:bg-[#0F172A] selection:text-[#F8F4EC]">
       <FloatingHeader />
       <FishingLineFromRod />
       <HeroSection />
       <AboutSection />
       <ExperienceSection />
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <ProjectsSection />
         <Footer />
         <img
@@ -178,7 +178,10 @@ function FloatingHeader() {
   }
 
   return (
-    <div className="fixed left-1/2 top-5 z-50 -translate-x-1/2">
+    <div
+      className="fixed left-1/2 z-50 -translate-x-1/2"
+      style={{ top: "calc(env(safe-area-inset-top, 0px) + 20px)" }}
+    >
       <header className="rounded-full border border-white/10 bg-black/40 px-2 py-1 shadow-xl backdrop-blur-xl">
         <nav className="flex items-center gap-1">
           <a
@@ -300,7 +303,8 @@ function HeroSection() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen items-center overflow-hidden px-12 pt-24 sm:px-20"
+      className="relative flex min-h-screen items-start md:items-center overflow-hidden px-12 pt-24 sm:px-20"
+      style={{ minHeight: "100svh" }}
     >
       {/* Lake background */}
       <img
@@ -321,7 +325,7 @@ function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#080A0F]/65 via-[#080A0F]/30 to-[#080A0F]/5" />
 
       {/* Hero text */}
-      <div className="relative z-20 max-w-2xl -translate-y-80 text-left sm:translate-y-18 sm:translate-x-20">
+      <div className="relative z-20 max-w-2xl text-left pt-15 sm:translate-y-18 sm:translate-x-20">
         <p className="mb-5 text-sm font-light uppercase tracking-[0.15em] text-[#F7EDE4]/70 font-['JetBrains_Mono']">
           Software Engineer / 2026
         </p>
@@ -356,13 +360,17 @@ function HeroSection() {
         className="
           pointer-events-none
           absolute
-          bottom-[24%]
-          right-[10%]
+          bottom-[18%]
+          left-[42%]
           z-20
-          hidden
-          h-[260px]
-          w-[460px]
-          md:block
+          h-[200px]
+          w-[280px]
+          md:bottom-[24%]
+          md:left-auto
+          md:right-[10%]
+          md:h-[260px]
+          md:w-[460px]
+          scale-x-[-1]
         "
       >
         <img
@@ -372,10 +380,11 @@ function HeroSection() {
             absolute
             bottom-0
             right-0
-            w-[360px]
+            w-[220px]
             image-render-pixel
             animate-[boatFloat_7s_ease-in-out_infinite]
             z-[20]
+            md:w-[360px]       
           "
         />
 
@@ -383,11 +392,13 @@ function HeroSection() {
           id="rod-tip-anchor"
           className="
             absolute
-            right-[275px]
-            top-[130px]
+            right-[164px]
+            top-[121px]
             h-1
             w-1
             animate-[boatFloat_7s_ease-in-out_infinite]
+            md:right-[275px]
+            md:top-[130px]
           "
         />
       </div>
@@ -416,6 +427,8 @@ function AboutSection() {
         backgroundPosition: "center",
       }}
     >
+      {/* Dark fade from hero — prevents jarring cream bleed when about section enters viewport */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-44" />
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>About</SectionLabel>
         <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
