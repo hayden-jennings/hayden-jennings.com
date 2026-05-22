@@ -19,7 +19,7 @@ import "@fontsource/jetbrains-mono/700.css";
 
 const experiences = [
   {
-    company: "AAA | American Automobile Association",
+    company: "AAA",
     dates: "2024 — Present",
     role: "Software Engineer",
     summary:
@@ -74,50 +74,6 @@ const navItems = [
   { label: "Contact", href: "#contact" },
 ];
 
-function FishingLineFromRod() {
-  const lineRef = useRef<HTMLDivElement>(null);
-  const lureRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    afterLenisCallback = () => {
-      const anchor = document.getElementById("rod-tip-anchor");
-      const lineEl = lineRef.current;
-      const lureEl = lureRef.current;
-      if (!anchor || !lineEl || !lureEl) return;
-
-      const rect = anchor.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top;
-      const lureY = window.innerHeight * 0.54;
-      const lineHeight = Math.max(lureY - y, 18);
-
-      lineEl.style.left = `${x + 1}px`;
-      lineEl.style.top = `${y}px`;
-      lineEl.style.height = `${lineHeight}px`;
-
-      lureEl.style.left = `${x + 2}px`;
-      lureEl.style.top = `${y + lineHeight + 17}px`;
-    };
-
-    return () => {
-      afterLenisCallback = null;
-    };
-  }, []);
-
-  return (
-    <div className="pointer-events-none fixed inset-0 z-[19]">
-      <div ref={lineRef} className="absolute w-0.5 bg-[rgba(15,23,42,0.8)]" />
-      <img
-        ref={lureRef}
-        src="/images/lure-with-worm.png"
-        alt="lure"
-        className="absolute -translate-x-1/2 -translate-y-1/2"
-        style={{ width: 64, height: "auto" }}
-      />
-    </div>
-  );
-}
-
 export default function PortfolioLandingPage() {
   useEffect(() => {
     const lenis = new Lenis({
@@ -143,7 +99,7 @@ export default function PortfolioLandingPage() {
   }, []);
 
   return (
-    <main className="min-h-dvh text-[#0F172A] selection:bg-[#0F172A] selection:text-[#F8F4EC]">
+    <main className="min-h-screen text-[#0F172A] selection:bg-[#0F172A] selection:text-[#F8F4EC]">
       <FloatingHeader />
       <FishingLineFromRod />
       <HeroSection />
@@ -299,12 +255,55 @@ function FloatingHeader() {
   );
 }
 
+function FishingLineFromRod() {
+  const lineRef = useRef<HTMLDivElement>(null);
+  const lureRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    afterLenisCallback = () => {
+      const anchor = document.getElementById("rod-tip-anchor");
+      const lineEl = lineRef.current;
+      const lureEl = lureRef.current;
+      if (!anchor || !lineEl || !lureEl) return;
+
+      const rect = anchor.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top;
+      const lureY = window.innerHeight * 0.54;
+      const lineHeight = Math.max(lureY - y, 18);
+
+      lineEl.style.left = `${x + 1}px`;
+      lineEl.style.top = `${y}px`;
+      lineEl.style.height = `${lineHeight}px`;
+
+      lureEl.style.left = `${x + 2}px`;
+      lureEl.style.top = `${y + lineHeight + 17}px`;
+    };
+
+    return () => {
+      afterLenisCallback = null;
+    };
+  }, []);
+
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[19]">
+      <div ref={lineRef} className="absolute w-0.5 bg-[rgba(15,23,42,0.8)]" />
+      <img
+        ref={lureRef}
+        src="/images/lure-with-worm.png"
+        alt="lure"
+        className="absolute -translate-x-1/2 -translate-y-1/2"
+        style={{ width: 64, height: "auto" }}
+      />
+    </div>
+  );
+}
+
 function HeroSection() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen items-start md:items-center overflow-hidden px-12 pt-24 sm:px-20"
-      style={{ minHeight: "100svh" }}
+      className="relative flex items-start md:items-center overflow-hidden px-12 pt-24 sm:px-20 [min-height:calc(100lvh+60px)] md:[min-height:100lvh]"
     >
       {/* Lake background */}
       <img
@@ -325,7 +324,7 @@ function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#080A0F]/65 via-[#080A0F]/30 to-[#080A0F]/5" />
 
       {/* Hero text */}
-      <div className="relative z-20 max-w-2xl text-left pt-15 sm:translate-y-18 sm:translate-x-20">
+      <div className="relative z-20 max-w-2xl text-left pt-22 md:pt-0 sm:translate-y-18 sm:translate-x-20">
         <p className="mb-5 text-sm font-light uppercase tracking-[0.15em] text-[#F7EDE4]/70 font-['JetBrains_Mono']">
           Software Engineer / 2026
         </p>
@@ -361,7 +360,7 @@ function HeroSection() {
           pointer-events-none
           absolute
           bottom-[18%]
-          left-[42%]
+          left-[48%]
           z-20
           h-[200px]
           w-[280px]
@@ -420,7 +419,7 @@ function AboutSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden px-6 pt-42 pb-28"
+      className="relative overflow-hidden px-6 pr-14 sm:pr-6 pt-42 pb-28"
       style={{
         backgroundImage: "url(/images/background-bubbles.png)",
         backgroundSize: "cover",
@@ -431,7 +430,7 @@ function AboutSection() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-44" />
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>About</SectionLabel>
-        <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
+        <h2 className="mt-4 text-xl tracking-tight sm:text-2xl font-['Jost']">
           I'm Hayden
         </h2>
 
@@ -463,7 +462,7 @@ function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="relative overflow-hidden px-6 py-14"
+      className="relative overflow-hidden px-6 pr-14 sm:pr-6 py-14"
       style={{
         backgroundImage: "url(/images/background-bubbles2.png)",
         backgroundSize: "cover",
@@ -472,7 +471,7 @@ function ExperienceSection() {
     >
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Experience</SectionLabel>
-        <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
+        <h2 className="mt-4 text-xl tracking-tight sm:text-2xl font-['Jost']">
           Where I&apos;ve worked.
         </h2>
 
@@ -596,7 +595,7 @@ function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden px-6 py-28"
+      className="relative overflow-hidden px-6 pr-14 sm:pr-6 py-28"
       style={{
         backgroundImage: "url(/images/background-bubbles.png)",
         backgroundSize: "cover",
@@ -605,7 +604,7 @@ function ProjectsSection() {
     >
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Projects</SectionLabel>
-        <h2 className="mt-4 text-sm tracking-tight sm:text-2xl font-['Jost']">
+        <h2 className="mt-4 text-xl tracking-tight sm:text-2xl font-['Jost']">
           Selected projects, ask me about them!
         </h2>
 
