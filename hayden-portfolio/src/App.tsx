@@ -370,6 +370,7 @@ function HeroSection() {
           md:h-[260px]
           md:w-[460px]
           scale-x-[-1]
+          md:scale-x-[1]
         "
       >
         <img
