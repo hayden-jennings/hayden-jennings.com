@@ -269,7 +269,29 @@ function FishingLineFromRod() {
       const rect = anchor.getBoundingClientRect();
       const x = rect.left + rect.width / 2;
       const y = rect.top;
-      const lureY = window.innerHeight * 0.54;
+
+      const scrollTop = document.documentElement.scrollTop;
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight || 1;
+
+      // The lure's resting viewport Y (where it sits before scroll activates it)
+      const lureRestY = window.innerHeight * 0.25;
+      // The lure's final viewport Y at the very bottom of the page
+      const lureFinalY = window.innerHeight * 0.6;
+
+      // Activate once the scroll has traveled far enough that the lure's
+      // document-space position has entered the viewport's lower half.
+      // We treat the activation threshold as the scroll amount that would
+      // move a document element from lureRestY to the top — i.e. the lure
+      // "rides along" once scroll reaches its initial document offset.
+      const activationScroll = lureRestY; // px of scroll before lure starts moving
+      const activeRange = maxScroll - activationScroll;
+      const activeProgress = Math.max(
+        0,
+        Math.min(1, (scrollTop - activationScroll) / (activeRange || 1)),
+      );
+
+      const lureY = lureRestY + activeProgress * (lureFinalY - lureRestY);
       const lineHeight = Math.max(lureY - y, 18);
 
       lineEl.style.left = `${x + 1}px`;
