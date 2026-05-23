@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import Lenis from "lenis";
 
@@ -257,14 +258,16 @@ function FloatingHeader() {
 
 function FishingLineFromRod() {
   const lineRef = useRef<HTMLDivElement>(null);
-  const lureRef = useRef<HTMLImageElement>(null);
+  const lineConnectorRef = useRef<HTMLDivElement>(null);
+  const lureRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     afterLenisCallback = () => {
       const anchor = document.getElementById("rod-tip-anchor");
       const lineEl = lineRef.current;
+      const lineConnectorEl = lineConnectorRef.current;
       const lureEl = lureRef.current;
-      if (!anchor || !lineEl || !lureEl) return;
+      if (!anchor || !lineEl || !lineConnectorEl || !lureEl) return;
 
       const rect = anchor.getBoundingClientRect();
       const x = rect.left + rect.width / 2;
@@ -274,10 +277,20 @@ function FishingLineFromRod() {
       const maxScroll =
         document.documentElement.scrollHeight - window.innerHeight || 1;
 
+      // Responsive sizing keyed off Tailwind's lg/xl/2xl breakpoints (same
+      // ones the boat scene uses). Tune each row to taste per breakpoint.
+      const vw = window.innerWidth;
+      const lureRestPct =
+        vw >= 1536 ? 0.25 : vw >= 1280 ? 0.25 : vw >= 1024 ? 0.27 : 0.25;
+      const lureFinalPct =
+        vw >= 1536 ? 0.6 : vw >= 1280 ? 0.6 : vw >= 1024 ? 0.62 : 0.6;
+      const minStub = vw >= 1280 ? 50 : vw >= 1024 ? 45 : 35;
+      const lineLureGap = vw >= 1280 ? 18 : vw >= 1024 ? 16 : 12;
+
       // The lure's resting viewport Y (where it sits before scroll activates it)
-      const lureRestY = window.innerHeight * 0.25;
+      const lureRestY = window.innerHeight * lureRestPct;
       // The lure's final viewport Y at the very bottom of the page
-      const lureFinalY = window.innerHeight * 0.6;
+      const lureFinalY = window.innerHeight * lureFinalPct;
 
       // Activate once the scroll has traveled far enough that the lure's
       // document-space position has entered the viewport's lower half.
@@ -292,14 +305,48 @@ function FishingLineFromRod() {
       );
 
       const lureY = lureRestY + activeProgress * (lureFinalY - lureRestY);
-      const lineHeight = Math.max(lureY - y, 18);
+      const lineHeight = Math.max(lureY - y, minStub);
 
-      lineEl.style.left = `${x + 1}px`;
-      lineEl.style.top = `${y}px`;
-      lineEl.style.height = `${lineHeight}px`;
+      // The line splits into two roles that hand off at the viewport top
+      // (y = 0). On iOS Safari, native scrolling runs on the compositor
+      // thread and can advance multiple times per JS RAF tick, so any
+      // JS-driven size update lags the native scroll — that's what made the
+      // line bottom detach from the lure during fast scrolling.
+      //
+      // Element A (absolute in body): cemented to the rod via document-coord
+      // positioning. The browser scrolls it natively, so its top never lags
+      // — it stays glued to the rod tip. When the rod is in view (hero), this
+      // element IS the entire line. When the rod is above viewport, it only
+      // covers the safe-area extension above viewport y = 0; iOS Safari
+      // clips fixed elements at the safe area but renders absolute-in-body
+      // through it, which is why this MUST be absolute, not fixed.
+      //
+      // Element B (fixed, top at 0): only shown once the rod is above
+      // viewport. Its top is the constant viewport y = 0 (no scroll lag),
+      // and its bottom is the lure (also fixed) — so the line bottom and
+      // lure stay glued together regardless of JS timing.
+      //
+      // Hiding Element B in hero avoids two issues: a JS-tracked top
+      // jittering against the rod, and double-rendering the line at ~96%
+      // opacity instead of the intended 80%.
+      const docX = x + window.scrollX;
+      const docY = y + window.scrollY;
 
-      lureEl.style.left = `${x + 2}px`;
-      lureEl.style.top = `${y + lineHeight + 17}px`;
+      // When the rod is off-screen, extend Element A 200px past viewport top
+      // so it overlaps deep into Element B's territory. Even if Element A's
+      // height update lags native scroll by tens of pixels, its bottom stays
+      // well inside the overlap zone — never short enough to expose a gap.
+      // Both elements are opaque and the same color, so overlap is invisible.
+      const elementAHeight = y > 0 ? lineHeight : -y + 150;
+      lineEl.style.transform = `translate3d(${docX + 1}px, ${docY}px, 0)`;
+      lineEl.style.height = `${elementAHeight}px`;
+
+      const elementBHeight = y > 0 ? 0 : lureY;
+      lineConnectorEl.style.transform = `translate3d(${x + 1}px, 0, 0)`;
+      lineConnectorEl.style.height = `${elementBHeight}px`;
+
+      const lureTopViewportY = y + lineHeight + lineLureGap;
+      lureEl.style.transform = `translate3d(${x + 2}px, ${lureTopViewportY}px, 0)`;
     };
 
     return () => {
@@ -307,17 +354,29 @@ function FishingLineFromRod() {
     };
   }, []);
 
-  return (
-    <div className="pointer-events-none fixed inset-0 z-[19]">
-      <div ref={lineRef} className="absolute w-0.5 bg-[rgba(15,23,42,0.8)]" />
-      <img
-        ref={lureRef}
-        src="/images/lure-with-worm.webp"
-        alt="lure"
-        className="absolute -translate-x-1/2 -translate-y-1/2 2xl:scale-x-[-1]"
-        style={{ width: 16, height: "auto" }}
+  return createPortal(
+    <>
+      <div
+        ref={lineRef}
+        className="pointer-events-none absolute left-0 top-0 w-0.5 bg-[#292929] z-[19] will-change-transform"
       />
-    </div>
+      <div
+        ref={lineConnectorRef}
+        className="pointer-events-none fixed left-0 top-0 w-0.5 bg-[#292929] z-[19] will-change-transform"
+      />
+      <div
+        ref={lureRef}
+        className="pointer-events-none fixed left-0 top-0 z-[19] will-change-transform"
+      >
+        <img
+          src="/images/lure-with-worm.webp"
+          alt="lure"
+          className="w-[16px] lg:w-[17px] xl:w-[18px] 2xl:w-[20px] -translate-x-1/2 -translate-y-1/2 2xl:scale-x-[-1]"
+          style={{ height: "auto" }}
+        />
+      </div>
+    </>,
+    document.body,
   );
 }
 
@@ -382,19 +441,16 @@ function HeroSection() {
         className="
           pointer-events-none
           absolute
-          bottom-[18%]
+          bottom-[24%]
           right-[7%]
           z-20
           h-[200px]
           w-[130px]
-          lg:bottom-[24%]
           lg:h-[230px]
           lg:w-[220px]
-          xl:bottom-[24%]
           xl:right-[10%]
           xl:h-[260px]
           xl:w-[300px]
-          2xl:bottom-[24%]
           2xl:left-auto
           2xl:right-[13%]
           2xl:h-[260px]
