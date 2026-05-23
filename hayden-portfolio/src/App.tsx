@@ -537,7 +537,7 @@ function AboutSection() {
           </p>
           <p>
             Outside of the office, you can usually find me outdoors, in the gym,
-            or building fun projects in either in the digital (code) or physical
+            or building fun projects in either the digital (code) or physical
             (woodworking) realms.
           </p>
         </div>
