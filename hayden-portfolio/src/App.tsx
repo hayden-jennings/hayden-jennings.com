@@ -221,9 +221,9 @@ function FloatingHeader() {
             rounded-[28px]
             border
             border-white/10
-            bg-[#171A20]/95
+            bg-black/40
             p-8
-            shadow-2xl
+            shadow-xl
             backdrop-blur-xl
             sm:hidden
           "
@@ -347,7 +347,7 @@ function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#080A0F]/65 via-[#080A0F]/30 to-[#080A0F]/5" />
 
       {/* Hero text */}
-      <div className="relative z-20 max-w-2xl text-left pt-22 xl:pt-0 lg:translate-y-18 lg:translate-x-20">
+      <div className="relative z-20 max-w-2xl text-left pt-22 xl:pb-30 2xl:pb-0 xl:pt-0 lg:translate-y-18 lg:translate-x-20">
         <p className="mb-5 text-sm font-light uppercase tracking-[0.15em] text-[#F7EDE4]/70 font-['JetBrains_Mono']">
           Software Engineer / 2026
         </p>
@@ -387,6 +387,9 @@ function HeroSection() {
           z-20
           h-[200px]
           w-[130px]
+          lg:bottom-[24%]
+          lg:h-[230px]
+          lg:w-[220px]
           xl:bottom-[24%]
           xl:right-[10%]
           xl:h-[260px]
@@ -411,6 +414,7 @@ function HeroSection() {
             image-render-pixel
             animate-[boatFloat_7s_ease-in-out_infinite]
             z-[20]
+            lg:w-[165px]
             xl:w-[200px]
           "
         />
@@ -424,6 +428,8 @@ function HeroSection() {
             h-1
             w-1
             animate-[boatFloat_7s_ease-in-out_infinite]
+            lg:right-[157px]
+            lg:top-[140px]
             xl:right-[191px]
             xl:top-[150px]
             2xl:right-[194px]
@@ -431,16 +437,6 @@ function HeroSection() {
           "
         />
       </div>
-
-      {/* Foreground bushes — sits above rod line (z-[19]) */}
-      {/* <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[16%] z-[20]">
-        <img
-          src="/images/lake-hero-bushes.webp"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-bottom image-render-pixel"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080A0F]/65 via-[#080A0F]/30 to-[#080A0F]/5" />
-      </div> */}
     </section>
   );
 }
