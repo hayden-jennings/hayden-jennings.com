@@ -292,8 +292,8 @@ function FishingLineFromRod() {
         ref={lureRef}
         src="/images/lure-with-worm.webp"
         alt="lure"
-        className="absolute -translate-x-1/2 -translate-y-1/2"
-        style={{ width: 64, height: "auto" }}
+        className="absolute -translate-x-1/2 -translate-y-1/2 2xl:scale-x-[-1]"
+        style={{ width: 16, height: "auto" }}
       />
     </div>
   );
@@ -303,7 +303,7 @@ function HeroSection() {
   return (
     <section
       id="top"
-      className="relative flex items-start md:items-center overflow-hidden px-12 pt-24 sm:px-20 [min-height:calc(100lvh+60px)] md:[min-height:100lvh]"
+      className="relative flex items-start xl:items-center overflow-hidden px-12 pt-24 sm:px-20 [min-height:calc(100lvh+60px)] xl:[min-height:100lvh]"
     >
       {/* Lake background */}
       <img
@@ -325,13 +325,13 @@ function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#080A0F]/65 via-[#080A0F]/30 to-[#080A0F]/5" />
 
       {/* Hero text */}
-      <div className="relative z-20 max-w-2xl text-left pt-22 md:pt-0 sm:translate-y-18 sm:translate-x-20">
+      <div className="relative z-20 max-w-2xl text-left pt-22 xl:pt-0 lg:translate-y-18 lg:translate-x-20">
         <p className="mb-5 text-sm font-light uppercase tracking-[0.15em] text-[#F7EDE4]/70 font-['JetBrains_Mono']">
           Software Engineer / 2026
         </p>
 
         <div className="flex items-center gap-4 mt-0">
-          <h1 className="text-3xl tracking-tight font-normal sm:text-4xl md:text-5xl text-[#F7EDE4] font-['Jost']">
+          <h1 className="text-3xl tracking-tight font-normal sm:text-4xl xl:text-5xl text-[#F7EDE4] font-['Jost']">
             I&apos;m Hayden
           </h1>
           <MagneticEffect strength={0.5}>
@@ -361,31 +361,35 @@ function HeroSection() {
           pointer-events-none
           absolute
           bottom-[18%]
-          left-[48%]
+          right-[7%]
           z-20
           h-[200px]
-          w-[280px]
-          md:bottom-[24%]
-          md:left-auto
-          md:right-[10%]
-          md:h-[260px]
-          md:w-[460px]
+          w-[130px]
+          xl:bottom-[24%]
+          xl:right-[10%]
+          xl:h-[260px]
+          xl:w-[300px]
+          2xl:bottom-[24%]
+          2xl:left-auto
+          2xl:right-[13%]
+          2xl:h-[260px]
+          2xl:w-[460px]
           scale-x-[-1]
-          md:scale-x-[1]
+          2xl:scale-x-[1]
         "
       >
         <img
-          src="/images/boat-avatar5.webp"
+          src="/images/boat-avatar6.webp"
           alt="Pixel art Hayden fishing in a boat"
           className="
             absolute
             bottom-0
             right-0
-            w-[220px]
+            w-[130px]
             image-render-pixel
             animate-[boatFloat_7s_ease-in-out_infinite]
             z-[20]
-            md:w-[360px]       
+            xl:w-[200px]
           "
         />
 
@@ -393,13 +397,15 @@ function HeroSection() {
           id="rod-tip-anchor"
           className="
             absolute
-            right-[164px]
-            top-[121px]
+            right-[123px]
+            top-[128px]
             h-1
             w-1
             animate-[boatFloat_7s_ease-in-out_infinite]
-            md:right-[275px]
-            md:top-[130px]
+            xl:right-[191px]
+            xl:top-[150px]
+            2xl:right-[194px]
+            2xl:top-[151px]
           "
         />
       </div>
@@ -421,7 +427,7 @@ function AboutSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden px-6 pr-14 sm:pr-6 pt-42 pb-28"
+      className="relative overflow-hidden px-6 pr-[15%] lg:pr-[0%] pt-42 pb-28"
     >
       <img
         src="/images/background-bubbles.webp"
@@ -465,7 +471,7 @@ function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="relative overflow-hidden px-6 pr-14 sm:pr-6 py-14"
+      className="relative overflow-hidden px-6 pr-14 pr-[15%] lg:pr-[0%] py-14"
     >
       <img
         src="/images/background-bubbles2.webp"
@@ -599,7 +605,7 @@ function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden px-6 pr-14 sm:pr-6 py-28"
+      className="relative overflow-hidden px-6 pr-14 pr-[15%] lg:pr-[0%] py-28"
     >
       <img
         src="/images/background-bubbles.webp"
