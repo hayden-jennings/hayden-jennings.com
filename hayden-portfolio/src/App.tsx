@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import Lenis from "lenis";
 
-import { Mail, House, Menu, X } from "lucide-react";
+import { Mail, House, Menu, X, ExternalLink } from "lucide-react";
 
 import "@fontsource/jost/300.css";
 import "@fontsource/jost/400.css";
@@ -46,18 +46,21 @@ const projects = [
     description:
       "The Pump App is a fitness app I built from 0 → 1 and launched on the App Store. It helps users track workouts, log progress, build routines, and stay consistent with their fitness goals. I handled the full product journey end-to-end, from idea and design through development, launch, and deployment.",
     stack: "React Native, TypeScript, Python, AWS",
+    url: "https://apps.apple.com/us/app/the-pump-app/id6738340767",
   },
   {
     name: "Truck Tracker",
     description:
       "Built a near real-time geospatial tracking experience within the AAA chatbot interface, enabling roadside members to view live truck locations, receive ETA updates, and track reroutes in real time. Owned the feature end-to-end and integrated Google Maps APIs to power the experience. The launch significantly reduced negative feedback around location visibility and ETA uncertainty, and became a major win for the team.",
     stack: "TypeScript, C#, Google Maps APIs, AWS, Azure",
+    url: "https://chat.ace.aaa.com/",
   },
   {
     name: "Wallet Wiz",
     description:
       "I got tired of always calculating how much money I actually had and decided to have a machine do it for me. This is how Wallet Wiz was born. A personalized chatbot that answers questions about balances, spending, transactions, and abnormal purchases.",
     stack: "Python, FastAPI, LangGraph, PostgreSQL, Plaid, Telegram",
+    url: "https://github.com/hayden-jennings/wallet-wiz",
   },
 ];
 
@@ -695,19 +698,31 @@ function ProjectsSection() {
 
         <div className="mt-8 flex flex-col gap-4">
           {projects.map((project) => (
-            <TiltEffect key={project.name}>
-              <div className="flex h-full flex-col gap-6 rounded-2xl border border-[#E2D8C8] bg-[#FBF8F2]/80 p-8 backdrop-blur-sm">
-                <p className="font-semibold text-[#0F172A] font-['Jost']">
-                  {project.name}
-                </p>
-                <p className="flex-1 text-15 leading-7 font-['Jost'] text-[#334155]">
-                  {project.description}
-                </p>
-                <p className="text-xs text-[#2E749E]/80 font-['JetBrains_Mono']">
-                  {project.stack}
-                </p>
-              </div>
-            </TiltEffect>
+            <a
+              key={project.name}
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block"
+            >
+              <TiltEffect>
+                <div className="relative flex h-full flex-col gap-6 rounded-2xl border border-[#E2D8C8] bg-[#FBF8F2]/80 p-8 backdrop-blur-sm transition-[background-color,box-shadow,border-color] duration-300 group-hover:bg-[#FBF8F2] group-hover:border-[#2E749E]/30 group-hover:shadow-[0_0_8px_rgba(46,116,158,0.2)]">
+                  <ExternalLink
+                    className="absolute top-6 right-6 h-4 w-4 text-[#334155]/60 transition-colors group-hover:text-[#2E749E]"
+                    aria-hidden="true"
+                  />
+                  <p className="font-semibold text-[#0F172A] font-['Jost'] pr-8">
+                    {project.name}
+                  </p>
+                  <p className="flex-1 text-15 leading-7 font-['Jost'] text-[#334155]">
+                    {project.description}
+                  </p>
+                  <p className="text-xs text-[#2E749E]/80 font-['JetBrains_Mono']">
+                    {project.stack}
+                  </p>
+                </div>
+              </TiltEffect>
+            </a>
           ))}
         </div>
       </div>
