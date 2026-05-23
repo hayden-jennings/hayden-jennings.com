@@ -433,14 +433,14 @@ function HeroSection() {
       </div>
 
       {/* Foreground bushes — sits above rod line (z-[19]) */}
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[16%] z-[20]">
+      {/* <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[16%] z-[20]">
         <img
           src="/images/lake-hero-bushes.webp"
           alt=""
           className="absolute inset-0 h-full w-full object-cover object-bottom image-render-pixel"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#080A0F]/65 via-[#080A0F]/30 to-[#080A0F]/5" />
-      </div>
+      </div> */}
     </section>
   );
 }
