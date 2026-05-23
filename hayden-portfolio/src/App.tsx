@@ -101,7 +101,7 @@ export default function PortfolioLandingPage() {
   }, []);
 
   return (
-    <main className="min-h-screen text-[#0F172A] selection:bg-[#0F172A] selection:text-[#F8F4EC]">
+    <main className="min-h-screen text-[#0F172A] selection:bg-[#0F172A] selection:text-[#F8F4EC] bg-[url('/images/background-bubbles3.webp')] lg:bg-none bg-repeat-y [background-size:100%_auto]">
       <FloatingHeader />
       <FishingLineFromRod />
       <HeroSection />
@@ -111,7 +111,7 @@ export default function PortfolioLandingPage() {
         <ProjectsSection />
         <Footer />
         <img
-          src="/images/background-bottom.webp"
+          src="/images/background-bottom1.webp"
           alt=""
           loading="lazy"
           className="pointer-events-none absolute bottom-0 left-0 w-full object-cover object-bottom"
@@ -506,11 +506,13 @@ function AboutSection() {
       id="about"
       className="relative overflow-hidden px-6 pr-[15%] lg:pr-[0%] pt-42 pb-28"
     >
-      <img
-        src="/images/background-bubbles.webp"
-        alt=""
-        loading="lazy"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+      <div
+        className="pointer-events-none absolute inset-0 hidden lg:block"
+        style={{
+          backgroundImage: "url('/images/background-bubbles4.webp')",
+          backgroundRepeat: "repeat-y",
+          backgroundSize: "100% auto",
+        }}
       />
       {/* Dark fade from hero — prevents jarring cream bleed when about section enters viewport */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-44" />
@@ -548,13 +550,15 @@ function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="relative overflow-hidden px-6 pr-14 pr-[15%] lg:pr-[0%] py-14"
+      className="relative overflow-hidden px-6 pr-14 pr-[15%] lg:pr-[0%] pt-42 pb-28"
     >
-      <img
-        src="/images/background-bubbles2.webp"
-        alt=""
-        loading="lazy"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+      <div
+        className="pointer-events-none absolute inset-0 hidden lg:block"
+        style={{
+          backgroundImage: "url('/images/background-bubbles5.webp')",
+          backgroundRepeat: "repeat-y",
+          backgroundSize: "100% auto",
+        }}
       />
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Experience</SectionLabel>
@@ -682,13 +686,15 @@ function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden px-6 pr-14 pr-[15%] lg:pr-[0%] py-28"
+      className="relative overflow-hidden px-6 pr-14 pr-[15%] lg:pr-[0%] pt-42 pb-28"
     >
-      <img
-        src="/images/background-bubbles.webp"
-        alt=""
-        loading="lazy"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+      <div
+        className="pointer-events-none absolute inset-0 hidden lg:block"
+        style={{
+          backgroundImage: "url('/images/background-bubbles4.webp')",
+          backgroundRepeat: "repeat-y",
+          backgroundSize: "100% auto",
+        }}
       />
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Projects</SectionLabel>
