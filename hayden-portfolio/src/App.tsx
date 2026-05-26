@@ -22,21 +22,21 @@ const experiences = [
     dates: "2024 — Present",
     role: "Software Engineer",
     summary:
-      "I've spent over 2 years at AAA. During my time here, I designed and built high-availability AI and chatbot systems that support roadside assistance workflows, distributed cloud infrastructure, LLM-powered agents, and member-facing service experiences. I've gained vast experience working with AI technologies that impact millions of users, and have developed a strong passion for building software that solves real problems and makes people's lives easier.",
+      "I've been at AAA for over 2 years working on the AI systems that handle roadside assistance for millions of calls a year. Day to day, that's involved building and fine-tuning conversational AI that handles real service calls end-to-end, architecting multi-region infrastructure built for high availability, and more recently developing multi-agent workflows on Amazon Bedrock with Strands to reduce latency and improve response quality. I also won the AAA Futures Hackathon in 2025 for a prototype that improved how members and travel agents get things done.",
   },
   {
     company: "Freelance Software Engineer",
     dates: "2023 — 2024",
     role: "Software Engineer",
     summary:
-      "Worked as a freelance software engineer building AI-powered chatbots and custom web applications for small businesses and entrepreneurs. Led projects across the full product lifecycle, including ideation, product design, development, deployment, and iteration based on client and end-user feedback, gaining hands-on experience delivering software from concept to production.",
+      "Worked independently with small businesses and founders to build web apps and AI-powered chatbots from the ground up. Led every phase myself, from scoping and design through development, deployment, and iteration based on real feedback. Taught me a lot about what it takes to own something completely.",
   },
   {
-    company: "BU Shape Lab",
+    company: "Shape Lab",
     dates: "2022",
     role: "Research Intern",
     summary:
-      "Conducted research at the Boston University Shape Lab focused on human motion analysis and movement studies. Assisted with motion capture sessions, processed and analyzed movement data, and contributed to research involving athletics, yoga, dance, and balance. Developed experience working across research workflows, data processing pipelines, and interdisciplinary technical projects.",
+      "Spent a summer at Boston University's Shape Lab working on human motion research. I ran motion capture sessions, cleaned and processed movement data in Python, and helped turn raw recordings into usable datasets for studies across athletics, yoga, and dance. It was my first real taste of turning messy real-world data into something useful.",
   },
 ];
 
@@ -44,21 +44,21 @@ const projects = [
   {
     name: "The Pump App",
     description:
-      "The Pump App is a fitness app I built from 0 → 1 and launched on the App Store. It helps users track workouts, log progress, build routines, and stay consistent with their fitness goals. I handled the full product journey end-to-end, from idea and design through development, launch, and deployment.",
+      "A fitness app I built from 0 → 1 taking it from idea to App Store. It helps users track workouts, log progress, build routines, and stay consistent with their fitness goals. I handled the full product journey end-to-end, from idea and design through development, launch, and deployment.",
     stack: "React Native, TypeScript, Python, AWS",
     url: "https://apps.apple.com/us/app/the-pump-app/id6738340767",
   },
   {
     name: "Truck Tracker",
     description:
-      "Built a near real-time geospatial tracking experience within the AAA chatbot interface, enabling roadside members to view live truck locations, receive ETA updates, and track reroutes in real time. Owned the feature end-to-end and integrated Google Maps APIs to power the experience. The launch significantly reduced negative feedback around location visibility and ETA uncertainty, and became a major win for the team.",
+      "One of the pain points in the AAA roadside experience was simple: members didn't know where their truck was or when it would arrive. I built a near real-time geospatial tracking feature inside the AAA chatbot that shows live truck locations, ETA updates, and reroutes as they happen. Owned it end-to-end, integrated Google Maps APIs, and it became one of the team's biggest wins for member satisfaction.",
     stack: "TypeScript, C#, Google Maps APIs, AWS, Azure",
     url: "https://chat.ace.aaa.com/",
   },
   {
     name: "Wallet Wiz",
     description:
-      "I got tired of always calculating how much money I actually had and decided to have a machine do it for me. This is how Wallet Wiz was born. A personalized chatbot that answers questions about balances, spending, transactions, and abnormal purchases.",
+      "I got tired of mentally tracking where my money was going, so I built something to do it for me. Wallet Wiz is a Telegram chatbot that connects to your bank via Plaid and answers real questions about balances, spending patterns, transactions, anything unusual. Local-first, multi-agent architecture, running 24/7.",
     stack: "Python, FastAPI, LangGraph, PostgreSQL, Plaid, Telegram",
     url: "https://github.com/hayden-jennings/wallet-wiz",
   },
@@ -524,21 +524,22 @@ function AboutSection() {
 
         <div className="mt-8 max-w-2xl space-y-6 text-base leading-8 text-[#334155] sm:text-md">
           <p>
-            I&apos;m a software engineer based out of Los Angeles with
-            experience working on AI-powered chatbot systems, cloud
-            infrastructure, and customer-facing product experiences. I enjoy
-            building software that solves real problems and makes people&apos;s
+            I&apos;m a software engineer based in Los Angeles (open to
+            relocation), focused on building AI-powered systems, cloud
+            infrastructure, and products people actually want to use. I care a
+            lot about software that solves real problems and makes people&apos;s
             lives easier.
           </p>
           <p>
-            Former Division 1 track & field athlete at Boston University,
-            bringing a performance mindset to engineering, product building, and
-            continuous improvement.
+            Before I was engineer, I was a Division 1 track & field athlete at
+            Boston University. That background shapes how I work:
+            process-driven, competitive, and genuinely motivated by getting
+            better.
           </p>
           <p>
-            Outside of the office, you can usually find me outdoors, in the gym,
-            or building fun projects in either the digital (code) or physical
-            (woodworking) realms.
+            When I'm not at a keyboard, I'm usually outside, in the gym, or
+            building something out of wood – same problem-solving brain,
+            different medium.
           </p>
         </div>
       </div>
@@ -699,7 +700,7 @@ function ProjectsSection() {
       <div className="relative z-10 mx-auto max-w-2xl text-left">
         <SectionLabel>Projects</SectionLabel>
         <h2 className="mt-4 text-xl tracking-tight sm:text-2xl font-['Jost']">
-          Selected projects, ask me about them!
+          Selected projects – ask me about them.
         </h2>
 
         <div className="mt-8 flex flex-col gap-4">
