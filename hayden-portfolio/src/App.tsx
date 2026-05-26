@@ -29,14 +29,14 @@ const experiences = [
     dates: "2023 — 2024",
     role: "Software Engineer",
     summary:
-      "Worked independently with small businesses and founders to build web apps and AI-powered chatbots from the ground up. Led every phase myself, from scoping and design through development, deployment, and iteration based on real feedback. Taught me a lot about what it takes to own something completely.",
+      "I worked independently with small businesses and founders to build web apps and AI-powered chatbots from the ground up. Leading every phase myself, from scoping and design through development, deployment, and iteration based on real feedback, taught me a lot about what it takes to own something completely.",
   },
   {
     company: "Shape Lab",
     dates: "2022",
     role: "Research Intern",
     summary:
-      "Spent a summer at Boston University's Shape Lab working on human motion research. I ran motion capture sessions, cleaned and processed movement data in Python, and helped turn raw recordings into usable datasets for studies across athletics, yoga, and dance. It was my first real taste of turning messy real-world data into something useful.",
+      "I spent a summer at Boston University's Shape Lab working on human motion research. I ran motion capture sessions, cleaned and processed movement data in Python, and helped turn raw recordings into usable datasets for studies across athletics, yoga, and dance. This was my first real taste of turning messy real-world data into something useful.",
   },
 ];
 
