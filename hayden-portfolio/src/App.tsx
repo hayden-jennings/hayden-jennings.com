@@ -526,9 +526,7 @@ function AboutSection() {
           <p>
             I&apos;m a software engineer based in Los Angeles (open to
             relocation), focused on building AI-powered systems, cloud
-            infrastructure, and products people actually want to use. I care a
-            lot about software that solves real problems and makes people&apos;s
-            lives easier.
+            infrastructure, and products people actually want to use.
           </p>
           <p>
             Before I was engineer, I was a Division 1 track & field athlete at
