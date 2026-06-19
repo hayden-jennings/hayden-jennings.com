@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "./firebase";
 import Lenis from "lenis";
 
 import { Mail, House, Menu, X, ExternalLink } from "lucide-react";
@@ -709,6 +711,12 @@ function ProjectsSection() {
               target="_blank"
               rel="noopener noreferrer"
               className="group block"
+              onClick={() =>
+                logEvent(analytics, "project_click", {
+                  project_name: project.name,
+                  project_url: project.url,
+                })
+              }
             >
               <TiltEffect>
                 <div className="relative flex h-full flex-col gap-6 rounded-2xl border border-[#E2D8C8] bg-[#FBF8F2]/80 p-8 backdrop-blur-sm transition-[background-color,box-shadow,border-color] duration-300 group-hover:bg-[#FBF8F2] group-hover:border-[#2E749E]/30 group-hover:shadow-[0_0_8px_rgba(46,116,158,0.2)]">
@@ -795,6 +803,7 @@ function FooterLink({
       target={href.startsWith("http") ? "_blank" : undefined}
       rel={href.startsWith("http") ? "noreferrer" : undefined}
       className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#E2D8C8] bg-[#FBF8F2] text-[#64748B] transition hover:-translate-y-0.5 hover:bg-[#F2EADC] hover:text-[#0F172A]"
+      onClick={() => logEvent(analytics, "footer_link_click", { label })}
     >
       {children}
     </a>
