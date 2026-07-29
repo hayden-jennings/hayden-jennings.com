@@ -5,7 +5,7 @@ import { logEvent } from "firebase/analytics";
 import { analytics } from "./firebase";
 import Lenis from "lenis";
 
-import { Mail, House, Menu, X, ExternalLink } from "lucide-react";
+import { Mail, House, Menu, X, ExternalLink, Link as LinkIcon } from "lucide-react";
 
 import "@fontsource/jost/300.css";
 import "@fontsource/jost/400.css";
@@ -21,20 +21,23 @@ import "@fontsource/jetbrains-mono/700.css";
 const experiences = [
   {
     company: "AAA",
+    url: "https://chat.ace.aaa.com/",
     dates: "2024 — Present",
     role: "Software Engineer",
     summary:
       "I've been at AAA for over 2 years working on the AI systems that handle roadside assistance for millions of calls a year. Day to day, that's involved building and fine-tuning conversational AI that handles real service calls end-to-end, architecting multi-region infrastructure built for high availability, and more recently developing multi-agent workflows on Amazon Bedrock with Strands to reduce latency and improve response quality. I also won the AAA Futures Hackathon in 2025 for a prototype that improved how members and travel agents get things done.",
   },
   {
-    company: "Freelance Software Engineer",
-    dates: "2023 — 2024",
-    role: "Software Engineer",
+    company: "The Pump App",
+    url: "https://apps.apple.com/us/app/the-pump-app/id6738340767",
+    dates: "2023 — 2025",
+    role: "Found / Lead Engineer",
     summary:
-      "I worked independently with small businesses and founders to build web apps and AI-powered chatbots from the ground up. Leading every phase myself, from scoping and design through development, deployment, and iteration based on real feedback, taught me a lot about what it takes to own something completely.",
+      "A fitness app I built from 0 → 1 taking it from idea to App Store. It helps users track workouts, log progress, build routines, and stay consistent with their fitness goals. I handled the full product journey end-to-end, from idea and design through development, launch, and deployment.",
   },
   {
     company: "Shape Lab",
+    url: "", // TODO: add company website
     dates: "2022",
     role: "Research Intern",
     summary:
@@ -43,13 +46,6 @@ const experiences = [
 ];
 
 const projects = [
-  {
-    name: "The Pump App",
-    description:
-      "A fitness app I built from 0 → 1 taking it from idea to App Store. It helps users track workouts, log progress, build routines, and stay consistent with their fitness goals. I handled the full product journey end-to-end, from idea and design through development, launch, and deployment.",
-    stack: "React Native, TypeScript, Python, AWS",
-    url: "https://apps.apple.com/us/app/the-pump-app/id6738340767",
-  },
   {
     name: "Truck Tracker",
     description:
@@ -571,7 +567,26 @@ function ExperienceSection() {
           {experiences.map((experience) => (
             <div key={experience.company}>
               <p className="font-semibold text-[#0F172A] flex items-baseline gap-3">
-                {experience.company}
+                <span className="inline-flex items-center gap-1.5">
+                  {experience.company}
+                  {experience.url && (
+                    <a
+                      href={experience.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${experience.company} website`}
+                      className="text-[#334155]/60 transition-colors hover:text-[#2E749E]"
+                      onClick={() =>
+                        logEvent(analytics, "company_click", {
+                          company_name: experience.company,
+                          company_url: experience.url,
+                        })
+                      }
+                    >
+                      <LinkIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                  )}
+                </span>
                 <span className="text-xs font-normal text-[#0F172A]/40 font-['JetBrains_Mono']">
                   {experience.dates}
                 </span>
