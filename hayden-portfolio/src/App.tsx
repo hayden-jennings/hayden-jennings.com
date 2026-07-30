@@ -31,7 +31,7 @@ const experiences = [
     company: "The Pump App",
     url: "https://apps.apple.com/us/app/the-pump-app/id6738340767",
     dates: "2023 — 2025",
-    role: "Found / Lead Engineer",
+    role: "Co-Founder / Lead Engineer",
     summary:
       "A fitness app I built from 0 → 1 taking it from idea to App Store. It helps users track workouts, log progress, build routines, and stay consistent with their fitness goals. I handled the full product journey end-to-end, from idea and design through development, launch, and deployment.",
   },
